@@ -16,7 +16,7 @@
       background: #00a7c7;
       color: white;
       text-align: center;
-      padding: 20px 10px 30px;
+      padding: 20px;
     }
 
     header img {
@@ -46,7 +46,6 @@
       display: block;
       font-size: 18px;
       margin-bottom: 8px;
-      cursor: pointer;
     }
 
     .quantidade {
@@ -64,7 +63,6 @@
       border-radius: 10px;
       background: #00a7c7;
       color: white;
-      cursor: pointer;
     }
 
     .quantidade span {
@@ -73,17 +71,13 @@
       text-align: center;
     }
 
-    .whatsapp {
-      margin: 30px 20px;
-    }
-
-    .whatsapp button {
-      width: 100%;
+    .btn-whatsapp {
       background: #25d366;
-      border: none;
-      padding: 18px;
-      font-size: 20px;
       color: white;
+      font-size: 20px;
+      text-align: center;
+      padding: 18px;
+      margin: 25px;
       border-radius: 15px;
       cursor: pointer;
     }
@@ -92,75 +86,74 @@
 
 <body>
 
-  <header>
-    <img src="logo.png" alt="Logo">
-    <h1>Cardápio Praia 🌊</h1>
-  </header>
+<header>
+  <img src="logo.png" alt="Logo">
+  <h1>Cardápio Praia 🌊</h1>
+</header>
 
-  <div class="card">
-    <h2>Peixe Grelhado</h2>
+<div class="card">
+  <h2 id="prato">Peixe Grelhado</h2>
 
-    <div class="opcoes">
-      <label>
-        <input type="radio" name="opcao" value="Mista" checked>
-        Mista
-      </label>
+  <div class="opcoes">
+    <label>
+      <input type="radio" name="opcao" value="Mista" checked>
+      Mista
+    </label>
 
-      <label>
-        <input type="radio" name="opcao" value="Apenas batata">
-        Apenas batata
-      </label>
+    <label>
+      <input type="radio" name="opcao" value="Apenas batata">
+      Apenas batata
+    </label>
 
-      <label>
-        <input type="radio" name="opcao" value="Apenas macaxeira">
-        Apenas macaxeira
-      </label>
-    </div>
-
-    <div class="quantidade">
-      <button onclick="alterarQtd(-1)">−</button>
-      <span id="quantidade">1</span>
-      <button onclick="alterarQtd(1)">+</button>
-    </div>
+    <label>
+      <input type="radio" name="opcao" value="Apenas macaxeira">
+      Apenas macaxeira
+    </label>
   </div>
 
-  <div class="whatsapp">
-    <button onclick="enviarWhatsApp()">
-      📲 Enviar pedido no WhatsApp
-    </button>
+  <div class="quantidade">
+    <button onclick="alterarQtd(-1)">−</button>
+    <span id="quantidade">1</span>
+    <button onclick="alterarQtd(1)">+</button>
   </div>
+</div>
 
-  <script>
-    function alterarQtd(valor) {
-      const qtd = document.getElementById("quantidade");
-      let numero = parseInt(qtd.innerText);
+<div class="btn-whatsapp" onclick="enviarWhatsApp()">
+  📲 Enviar pedido no WhatsApp
+</div>
 
-      numero += valor;
-      if (numero < 1) numero = 1;
+<script>
+  function alterarQtd(valor) {
+    const qtd = document.getElementById("quantidade");
+    let numero = parseInt(qtd.innerText);
 
-      qtd.innerText = numero;
-    }
+    numero += valor;
+    if (numero < 1) numero = 1;
 
-    function enviarWhatsApp() {
-      const prato = "Peixe Grelhado";
-      const opcao = document.querySelector('input[name="opcao"]:checked').value;
-      const quantidade = document.getElementById("quantidade").innerText;
+    qtd.innerText = numero;
+  }
 
-      let mensagem =
-        "🧾 Pedido - Cardápio Praia\n\n" +
-        "🍽 Prato: " + prato + "\n" +
-        "🥗 Opção: " + opcao + "\n" +
-        "🔢 Quantidade: " + quantidade;
+  function enviarWhatsApp() {
+    const prato = document.getElementById("prato").innerText;
+    const opcao = document.querySelector('input[name="opcao"]:checked').value;
+    const quantidade = document.getElementById("quantidade").innerText;
 
-      const telefone = "5584992217686"; // 👈 TROQUE PELO SEU NÚMERO
-      const link = "https://wa.me/" + telefone + "?text=" + encodeURIComponent(mensagem);
+    const mensagem =
+      "🧾 Pedido - Cardápio Praia\n\n" +
+      "🍽 Prato: " + prato + "\n" +
+      "🥗 Opção: " + opcao + "\n" +
+      "🔢 Quantidade: " + quantidade;
 
-      window.open(link, "_blank");
-    }
-  </script>
+    const telefone = "5584992217686"; // 🔴 TROQUE PELO SEU NÚMERO
+    const link = "https://wa.me/" + telefone + "?text=" + encodeURIComponent(mensagem);
+
+    window.open(link, "_blank");
+  }
+</script>
 
 </body>
 </html>
+
 
 
 
