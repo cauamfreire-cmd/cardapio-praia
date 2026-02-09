@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<title>Cardápio Praia</title>
+
+<style>
+body{
+  margin:0;
+  font-family: Arial, sans-serif;
+  background:#f4fbff;
+}
+
+header{
+  background:#00a8cc;
+  text-align:center;
+  padding:20px;
+}
+
+header img{
+  width:160px;
+}
+
+header h1{
+  color:#fff;
+  margin-top:10px;
+}
+
+.container{
+  padding:20px;
+}
+
+.prato{
+  background:#fff;
+  border-radius:15px;
+  padding:20px;
+  margin-bottom:25px;
+  box-shadow:0 4px 10px rgba(0,0,0,0.1);
+}
+
+.prato h2{
+  font-size:28px;
+  margin-bottom:15px;
+}
+
+.opcoes label{
+  display:block;
+  font-size:20px;
+  margin-bottom:10px;
+}
+
+.quantidade{
+  display:flex;
+  align-items:center;
+  gap:15px;
+  margin-top:15px;
+}
+
+.quantidade button{
+  width:45px;
+  height:45px;
+  border:none;
+  border-radius:10px;
+  font-size:24px;
+  background:#00a8cc;
+  color:#fff;
+}
+
+.whatsapp{
+  background:#25d366;
+  color:#fff;
+  padding:20px;
+  font-size:22px;
+  font-weight:bold;
+  text-align:center;
+  border-radius:15px;
+  text-decoration:none;
+  display:block;
+}
+</style>
+</head>
+
+<body>
+
+<header>
+  <img src="logo.png">
+  <h1>Cardápio Praia 🌊</h1>
+</header>
+
+<div class="container">
+
+<!-- PEIXE GRELHADO -->
+<div class="prato">
+<h2>Peixe Grelhado</h2>
+<div class="opcoes">
+<label><input type="radio" name="peixe" value="Mista"> Mista</label>
+<label><input type="radio" name="peixe" value="Apenas batata"> Apenas batata</label>
+<label><input type="radio" name="peixe" value="Apenas macaxeira"> Apenas macaxeira</label>
+</div>
+<div class="quantidade">
+<button onclick="menos('q1')">−</button>
+<span id="q1">1</span>
+<button onclick="mais('q1')">+</button>
+</div>
+</div>
+
+<!-- ISCA DE PEIXE -->
+<div class="prato">
+<h2>Isca de Peixe</h2>
+<div class="opcoes">
+<label><input type="radio" name="iscapeixe" value="Mista"> Mista</label>
+<label><input type="radio" name="iscapeixe" value="Apenas batata"> Apenas batata</label>
+<label><input type="radio" name="iscapeixe" value="Apenas macaxeira"> Apenas macaxeira</label>
+</div>
+<div class="quantidade">
+<button onclick="menos('q2')">−</button>
+<span id="q2">1</span>
+<button onclick="mais('q2')">+</button>
+</div>
+</div>
+
+<!-- ISCA DE FRANGO -->
+<div class="prato">
+<h2>Isca de Frango</h2>
+<div class="opcoes">
+<label><input type="radio" name="iscafrango" value="Mista"> Mista</label>
+<label><input type="radio" name="iscafrango" value="Apenas batata"> Apenas batata</label>
+<label><input type="radio" name="iscafrango" value="Apenas macaxeira"> Apenas macaxeira</label>
+</div>
+<div class="quantidade">
+<button onclick="menos('q3')">−</button>
+<span id="q3">1</span>
+<button onclick="mais('q3')">+</button>
+</div>
+</div>
+
+<!-- PORÇÃO MISTA -->
+<div class="prato">
+<h2>Porção Mista</h2>
+<div class="quantidade">
+<button onclick="menos('q4')">−</button>
+<span id="q4">1</span>
+<button onclick="mais('q4')">+</button>
+</div>
+</div>
+
+<!-- BATATA FRITA -->
+<div class="prato">
+<h2>Porção de Batata Frita</h2>
+<div class="quantidade">
+<button onclick="menos('q5')">−</button>
+<span id="q5">1</span>
+<button onclick="mais('q5')">+</button>
+</div>
+</div>
+
+<a class="whatsapp" href="#" onclick="enviar()">📲 Enviar pedido no WhatsApp</a>
+
+</div>
+
+<script>
+function mais(id){
+  let el = document.getElementById(id);
+  el.innerText = parseInt(el.innerText) + 1;
+}
+function menos(id){
+  let el = document.getElementById(id);
+  if(el.innerText > 1){
+    el.innerText = parseInt(el.innerText) - 1;
+  }
+}
+
+function enviar(){
+  let msg = "Pedido do Cardápio Praia 🌊";
+  let telefone = "5584999999999"; // TROQUE AQUI
+  window.open("https://wa.me/"+telefone+"?text="+encodeURIComponent(msg));
+}
+</script>
+
+</body>
+</html>
+
