@@ -9,7 +9,15 @@
 body{
   margin:0;
   font-family:Arial, sans-serif;
-  background:linear-gradient(to bottom,#0f7c9b,#32b7d2);
+  background:url("https://images.unsplash.com/photo-1507525428034-b723cf961d3e");
+  background-size:cover;
+  background-attachment:fixed;
+}
+
+.overlay{
+  background:rgba(0,0,0,0.6);
+  min-height:100vh;
+  padding-bottom:120px;
 }
 
 header{
@@ -19,7 +27,7 @@ header{
 }
 
 header img{
-  width:200px;
+  width:180px;
   margin-bottom:10px;
 }
 
@@ -28,74 +36,70 @@ header h1{
   font-size:30px;
 }
 
-.container{
-  padding:15px;
+.categoria{
+  color:#fff;
+  font-size:22px;
+  margin:20px;
+  font-weight:bold;
 }
 
 .item{
   background:white;
-  padding:20px;
+  margin:15px;
+  padding:18px;
   border-radius:15px;
-  margin-bottom:20px;
-  box-shadow:0 5px 15px rgba(0,0,0,0.2);
+  box-shadow:0 5px 15px rgba(0,0,0,0.3);
 }
 
 .item h2{
   margin:0;
-  font-size:22px;
+  font-size:20px;
 }
 
 .desc{
+  font-size:14px;
   color:#555;
-  margin:5px 0;
 }
 
 .preco{
   font-weight:bold;
-  font-size:18px;
-  margin:8px 0;
+  margin-top:5px;
 }
 
-.quantidade{
+.controle{
+  margin-top:10px;
   display:flex;
   align-items:center;
   gap:10px;
 }
 
-.quantidade button{
-  background:#0f7c9b;
-  color:white;
+.controle button{
+  background:#009688;
   border:none;
-  padding:5px 12px;
+  color:white;
   font-size:18px;
+  padding:5px 12px;
   border-radius:8px;
   cursor:pointer;
 }
 
-.quantidade span{
+.controle span{
   font-size:18px;
   width:30px;
   text-align:center;
 }
 
-.total-box{
-  background:white;
-  padding:20px;
-  border-radius:15px;
-  margin:20px 15px;
-  box-shadow:0 5px 15px rgba(0,0,0,0.2);
-  font-size:20px;
-  font-weight:bold;
-}
-
-.finalizar{
+.botao-flutuante{
+  position:fixed;
+  bottom:20px;
+  left:50%;
+  transform:translateX(-50%);
   background:#25d366;
   color:white;
-  padding:18px;
-  text-align:center;
-  font-size:20px;
-  border-radius:12px;
-  margin:20px;
+  padding:18px 40px;
+  border-radius:50px;
+  font-size:18px;
+  box-shadow:0 5px 20px rgba(0,0,0,0.4);
   cursor:pointer;
 }
 </style>
@@ -103,87 +107,121 @@ header h1{
 
 <body>
 
+<div class="overlay">
+
 <header>
 <img src="logo.png">
 <h1>Cardápio Barraca Prime 🌊</h1>
 </header>
 
-<div class="container" id="cardapio"></div>
+<div id="cardapio"></div>
 
-<div class="total-box">
-Total: R$ <span id="total">0.00</span>
 </div>
 
-<div class="finalizar" onclick="enviarPedido()">
-📲 Finalizar Pedido no WhatsApp
+<div class="botao-flutuante" onclick="enviarPedido()">
+🛒 Finalizar Pedido | R$ <span id="total">0.00</span>
 </div>
 
 <script>
 
-const telefone = "5584992217686";
+const telefone="5584992217686";
 
-const pratos = [
+const categorias=[
+{
+nome:"🐟 Peixes",
+itens:[
 {nome:"Filé de Peixe Grelhado",desc:"Arroz e legumes no vapor",preco:179.99},
 {nome:"Moqueca de Peixe",desc:"Arroz, pirão e legumes",preco:289.00},
-{nome:"Isca de Peixe",desc:"",preco:169.99},
-{nome:"Isca de Frango",desc:"",preco:159.99},
-{nome:"Frango a Passarinho",desc:"",preco:139.99},
+{nome:"Isca de Peixe",desc:"",preco:169.99}
+]
+},
+{
+nome:"🍤 Frutos do Mar",
+itens:[
 {nome:"Camarão Alho e Óleo (com casca)",desc:"",preco:159.99},
-{nome:"Camarão Alho e Óleo (sem casca)",desc:"",preco:169.99},
 {nome:"Camarão à Milanesa",desc:"",preco:169.99},
-{nome:"Carne de Sol",desc:"Arroz, feijão, salada e farofa",preco:159.99},
 {nome:"Mistão de Frutos do Mar",desc:"Lagosta, camarão e peixe",preco:359.90}
+]
+},
+{
+nome:"🍗 Carnes e Frango",
+itens:[
+{nome:"Carne de Sol",desc:"Arroz, feijão, salada e farofa",preco:159.99},
+{nome:"Isca de Frango",desc:"",preco:159.99},
+{nome:"Frango a Passarinho",desc:"",preco:139.99}
+]
+}
 ];
 
-let carrinho = {};
+let carrinho={};
 
-const cardapio = document.getElementById("cardapio");
+const cardapio=document.getElementById("cardapio");
 
-pratos.forEach((prato,index)=>{
+categorias.forEach((categoria,cIndex)=>{
 
-  carrinho[index]=0;
+  const titulo=document.createElement("div");
+  titulo.className="categoria";
+  titulo.innerText=categoria.nome;
+  cardapio.appendChild(titulo);
 
-  const div=document.createElement("div");
-  div.className="item";
+  categoria.itens.forEach((item,iIndex)=>{
 
-  div.innerHTML=`
-  <h2>${prato.nome}</h2>
-  <div class="desc">${prato.desc}</div>
-  <div class="preco">R$ ${prato.preco.toFixed(2)}</div>
-  <div class="quantidade">
-    <button onclick="alterar(${index},-1)">-</button>
-    <span id="qtd${index}">0</span>
-    <button onclick="alterar(${index},1)">+</button>
-  </div>
-  `;
+    const id=cIndex+"-"+iIndex;
+    carrinho[id]=0;
 
-  cardapio.appendChild(div);
+    const div=document.createElement("div");
+    div.className="item";
+
+    div.innerHTML=`
+      <h2>${item.nome}</h2>
+      <div class="desc">${item.desc}</div>
+      <div class="preco">R$ ${item.preco.toFixed(2)}</div>
+      <div class="controle">
+        <button onclick="alterar('${id}',-1)">-</button>
+        <span id="q${id}">0</span>
+        <button onclick="alterar('${id}',1)">+</button>
+      </div>
+    `;
+
+    cardapio.appendChild(div);
+
+  });
+
 });
 
-function alterar(index,valor){
-  carrinho[index]+=valor;
-  if(carrinho[index]<0) carrinho[index]=0;
-  document.getElementById("qtd"+index).innerText=carrinho[index];
+function alterar(id,valor){
+  carrinho[id]+=valor;
+  if(carrinho[id]<0) carrinho[id]=0;
+  document.getElementById("q"+id).innerText=carrinho[id];
   atualizarTotal();
 }
 
 function atualizarTotal(){
   let total=0;
-  pratos.forEach((prato,index)=>{
-    total+=prato.preco*carrinho[index];
+
+  categorias.forEach((categoria,cIndex)=>{
+    categoria.itens.forEach((item,iIndex)=>{
+      const id=cIndex+"-"+iIndex;
+      total+=item.preco*carrinho[id];
+    });
   });
+
   document.getElementById("total").innerText=total.toFixed(2);
 }
 
 function enviarPedido(){
+
   let mensagem="🧾 Pedido - Barraca Prime\n\n";
   let total=0;
 
-  pratos.forEach((prato,index)=>{
-    if(carrinho[index]>0){
-      mensagem+=`${carrinho[index]}x ${prato.nome} - R$ ${(prato.preco*carrinho[index]).toFixed(2)}\n`;
-      total+=prato.preco*carrinho[index];
-    }
+  categorias.forEach((categoria,cIndex)=>{
+    categoria.itens.forEach((item,iIndex)=>{
+      const id=cIndex+"-"+iIndex;
+      if(carrinho[id]>0){
+        mensagem+=`${carrinho[id]}x ${item.nome} - R$ ${(item.preco*carrinho[id]).toFixed(2)}\n`;
+        total+=item.preco*carrinho[id];
+      }
+    });
   });
 
   if(total===0){
@@ -201,7 +239,3 @@ function enviarPedido(){
 
 </body>
 </html>
-
-
-
-
