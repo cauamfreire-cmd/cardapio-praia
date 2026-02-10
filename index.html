@@ -1,69 +1,92 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-  <meta charset="UTF-8">
-  <title>Cardápio Praia</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta charset="UTF-8">
+<title>Cardápio Praia</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-  <style>
-    body {
-      margin: 0;
-      font-family: Arial, sans-serif;
-      background: #e6f7ff;
-    }
+<style>
+body {
+  margin: 0;
+  font-family: Arial, sans-serif;
+  background: #e6f7ff;
+}
 
-    header {
-      background: #00a7c7;
-      color: white;
-      text-align: center;
-      padding: 20px;
-    }
+header {
+  background: #00a7c7;
+  color: white;
+  text-align: center;
+  padding: 20px;
+}
 
-    header img {
-      width: 160px;
-      margin-bottom: 10px;
-    }
+header img {
+  width: 180px;
+  margin-bottom: 10px;
+}
 
-    header h1 {
-      margin: 0;
-      font-size: 26px;
-    }
+header h1 {
+  margin: 0;
+  font-size: 28px;
+}
 
-    .item {
-      background: white;
-      margin: 15px;
-      padding: 18px;
-      border-radius: 15px;
-      box-shadow: 0 4px 10px rgba(0,0,0,0.1);
-    }
+.item {
+  background: white;
+  margin: 15px;
+  padding: 18px;
+  border-radius: 15px;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+}
 
-    .item h2 {
-      margin: 0 0 8px 0;
-      font-size: 20px;
-    }
+.item h2 {
+  margin: 0 0 8px 0;
+  font-size: 20px;
+}
 
-    .item p {
-      margin: 0 0 8px 0;
-      color: #555;
-      font-size: 14px;
-    }
+.item p {
+  margin: 0 0 8px 0;
+  color: #555;
+  font-size: 14px;
+}
 
-    .preco {
-      font-weight: bold;
-      font-size: 16px;
-      margin-bottom: 12px;
-    }
+.preco {
+  font-weight: bold;
+  margin-bottom: 10px;
+}
 
-    .btn {
-      background: #25d366;
-      color: white;
-      text-align: center;
-      padding: 12px;
-      border-radius: 10px;
-      cursor: pointer;
-      font-size: 16px;
-    }
-  </style>
+.quantidade {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-top: 10px;
+}
+
+.quantidade button {
+  width: 35px;
+  height: 35px;
+  border: none;
+  background: #00a7c7;
+  color: white;
+  font-size: 18px;
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+.quantidade span {
+  font-size: 16px;
+  font-weight: bold;
+}
+
+.enviar {
+  background: #25d366;
+  color: white;
+  text-align: center;
+  padding: 15px;
+  margin: 20px;
+  border-radius: 12px;
+  font-size: 18px;
+  cursor: pointer;
+}
+</style>
 </head>
 
 <body>
@@ -75,67 +98,86 @@
 
 <div id="cardapio"></div>
 
+<div class="enviar" onclick="enviarPedido()">
+📲 Enviar pedido no WhatsApp
+</div>
+
 <script>
-  const telefone = "5584992217686";
+const telefone = "5584992217686";
 
-  const pratos = [
-    { nome: "Peixe Frito Inteiro (Cioba)", desc: "A combinar • Arroz, salada e farofa", preco: "A combinar" },
-    { nome: "Peixe Frito Inteiro (Tilápia)", desc: "A combinar • Arroz, salada e farofa", preco: "A combinar" },
-    { nome: "Filé de Peixe Grelhado", desc: "Arroz e legumes no vapor c/ azeite", preco: "R$ 179,99" },
-    { nome: "Moqueca de Peixe", desc: "Arroz, pirão e legumes", preco: "R$ 289,00" },
-    { nome: "Isca de Peixe", desc: "", preco: "R$ 169,99" },
-    { nome: "Isca de Frango", desc: "", preco: "R$ 159,99" },
-    { nome: "Frango a Passarinho", desc: "", preco: "R$ 139,99" },
-    { nome: "Filé de Peito de Frango Grelhado", desc: "Arroz e legumes no vapor", preco: "R$ 169,99" },
-    { nome: "Camarão Alho e Óleo (com casca)", desc: "", preco: "R$ 159,99" },
-    { nome: "Camarão Alho e Óleo (sem casca)", desc: "", preco: "R$ 169,99" },
-    { nome: "Camarão à Milanesa", desc: "", preco: "R$ 169,99" },
-    { nome: "Camarão no Bafo", desc: "", preco: "R$ 169,99" },
-    { nome: "Lagosta", desc: "Preço a combinar", preco: "A combinar" },
-    { nome: "Mistinho de Frutos do Mar", desc: "Camarão alho e óleo c/ casca e filé empanado", preco: "R$ 259,99" },
-    { nome: "Mistão de Frutos do Mar", desc: "Lagosta, camarão e peixe", preco: "R$ 359,90" },
-    { nome: "Carne de Sol", desc: "Arroz, feijão, salada e farofa", preco: "R$ 159,99" },
-    { nome: "Mistinho", desc: "Carne e frango", preco: "R$ 229,99" },
-    { nome: "Mistão", desc: "Carne, frango e calabresa", preco: "R$ 259,00" },
-    { nome: "Anéis de Lula Empanados", desc: "", preco: "R$ 279,99" }
-  ];
+const pratos = [
+"Peixe Frito Inteiro (Cioba)",
+"Peixe Frito Inteiro (Tilápia)",
+"Filé de Peixe Grelhado",
+"Moqueca de Peixe",
+"Isca de Peixe",
+"Isca de Frango",
+"Frango a Passarinho",
+"Filé de Peito de Frango Grelhado",
+"Camarão Alho e Óleo (com casca)",
+"Camarão Alho e Óleo (sem casca)",
+"Camarão à Milanesa",
+"Camarão no Bafo",
+"Lagosta",
+"Mistinho de Frutos do Mar",
+"Mistão de Frutos do Mar",
+"Carne de Sol",
+"Mistinho",
+"Mistão",
+"Anéis de Lula Empanados"
+];
 
-  const cardapio = document.getElementById("cardapio");
+const cardapio = document.getElementById("cardapio");
 
-  pratos.forEach(prato => {
-    const div = document.createElement("div");
-    div.className = "item";
+pratos.forEach((nome, index) => {
+  const div = document.createElement("div");
+  div.className = "item";
 
-    const mensagem =
-      "🧾 Pedido - Cardápio Praia\n\n" +
-      "🍽 Prato: " + prato.nome + "\n" +
-      "💰 Preço: " + prato.preco;
+  div.innerHTML = `
+    <h2>${nome}</h2>
+    <div class="quantidade">
+      <button onclick="diminuir(${index})">-</button>
+      <span id="qtd${index}">0</span>
+      <button onclick="aumentar(${index})">+</button>
+    </div>
+  `;
 
-    const link = "https://wa.me/" + telefone + "?text=" + encodeURIComponent(mensagem);
+  cardapio.appendChild(div);
+});
 
-    div.innerHTML = `
-      <h2>${prato.nome}</h2>
-      <p>${prato.desc}</p>
-      <div class="preco">${prato.preco}</div>
-      <div class="btn" onclick="window.open('${link}','_blank')">
-        📲 Pedir no WhatsApp
-      </div>
-    `;
+function aumentar(i) {
+  const el = document.getElementById("qtd"+i);
+  el.innerText = parseInt(el.innerText) + 1;
+}
 
-    cardapio.appendChild(div);
+function diminuir(i) {
+  const el = document.getElementById("qtd"+i);
+  if (parseInt(el.innerText) > 0) {
+    el.innerText = parseInt(el.innerText) - 1;
+  }
+}
+
+function enviarPedido() {
+  let mensagem = "🧾 Pedido - Cardápio Praia\n\n";
+  let temPedido = false;
+
+  pratos.forEach((nome, i) => {
+    const qtd = parseInt(document.getElementById("qtd"+i).innerText);
+    if (qtd > 0) {
+      mensagem += "🍽 " + nome + " x" + qtd + "\n";
+      temPedido = true;
+    }
   });
+
+  if (!temPedido) {
+    alert("Selecione pelo menos um prato!");
+    return;
+  }
+
+  const link = "https://wa.me/" + telefone + "?text=" + encodeURIComponent(mensagem);
+  window.open(link, "_blank");
+}
 </script>
 
 </body>
 </html>
-
-
-
-
-
-
-
-
-
-
-
