@@ -75,6 +75,17 @@ header h1{
   margin-top:5px;
 }
 
+.opcoes{
+  margin-top:8px;
+  font-size:14px;
+}
+
+.opcoes select{
+  padding:6px;
+  border-radius:6px;
+  margin-top:5px;
+}
+
 .controle{
   margin-top:10px;
   display:flex;
@@ -143,28 +154,22 @@ nome:"🐟 Peixes",
 itens:[
 {nome:"Filé de Peixe Grelhado",desc:"Arroz e legumes no vapor",preco:179.99},
 {nome:"Moqueca de Peixe",desc:"Arroz, pirão e legumes",preco:289.00},
-{nome:"Isca de Peixe",desc:"",preco:169.99}
-]
-},
-{
-nome:"🍤 Frutos do Mar",
-itens:[
-{nome:"Camarão Alho e Óleo (com casca)",preco:159.99},
-{nome:"Camarão à Milanesa",preco:169.99},
-{nome:"Mistão de Frutos do Mar",desc:"Lagosta, camarão e peixe",preco:359.90}
+{nome:"Isca de Peixe",desc:"Escolha o acompanhamento",preco:169.99,opcoes:true}
 ]
 },
 {
 nome:"🍗 Carnes e Frango",
 itens:[
-{nome:"Carne de Sol",desc:"Arroz, feijão, salada e farofa",preco:159.99},
-{nome:"Isca de Frango",preco:159.99},
-{nome:"Frango a Passarinho",preco:139.99}
+{nome:"Isca de Frango",desc:"Escolha o acompanhamento",preco:159.99,opcoes:true},
+{nome:"Frango a Passarinho",preco:139.99},
+{nome:"Carne de Sol",desc:"Arroz, feijão, salada e farofa",preco:159.99}
 ]
 }
 ];
 
 let carrinho={};
+let escolhas={};
+
 const cardapio=document.getElementById("cardapio");
 
 categorias.forEach((categoria,cIndex)=>{
@@ -178,6 +183,7 @@ categorias.forEach((categoria,cIndex)=>{
 
     const id=cIndex+"-"+iIndex;
     carrinho[id]=0;
+    escolhas[id]="Mista";
 
     const div=document.createElement("div");
     div.className="item";
@@ -186,6 +192,16 @@ categorias.forEach((categoria,cIndex)=>{
       <h2>${item.nome}</h2>
       <div class="desc">${item.desc || ""}</div>
       <div class="preco">R$ ${item.preco.toFixed(2)}</div>
+      ${item.opcoes ? `
+      <div class="opcoes">
+        Acompanhamento:
+        <br>
+        <select onchange="escolhas['${id}']=this.value">
+          <option value="Mista">Mista</option>
+          <option value="Somente batata">Somente batata</option>
+          <option value="Somente macaxeira">Somente macaxeira</option>
+        </select>
+      </div>` : ``}
       <div class="controle">
         <button onclick="alterar('${id}',-1)">-</button>
         <span id="q${id}">0</span>
@@ -208,14 +224,12 @@ function alterar(id,valor){
 
 function atualizarTotal(){
   let total=0;
-
   categorias.forEach((categoria,cIndex)=>{
     categoria.itens.forEach((item,iIndex)=>{
       const id=cIndex+"-"+iIndex;
       total+=item.preco*carrinho[id];
     });
   });
-
   document.getElementById("total").innerText=total.toFixed(2);
 }
 
@@ -228,7 +242,13 @@ function enviarPedido(){
     categoria.itens.forEach((item,iIndex)=>{
       const id=cIndex+"-"+iIndex;
       if(carrinho[id]>0){
-        mensagem+=`${carrinho[id]}x ${item.nome} - R$ ${(item.preco*carrinho[id]).toFixed(2)}\n`;
+        mensagem+=`${carrinho[id]}x ${item.nome}`;
+
+        if(item.opcoes){
+          mensagem+=` (${escolhas[id]})`;
+        }
+
+        mensagem+=` - R$ ${(item.preco*carrinho[id]).toFixed(2)}\n`;
         total+=item.preco*carrinho[id];
       }
     });
@@ -250,4 +270,3 @@ function enviarPedido(){
 
 </body>
 </html>
-
