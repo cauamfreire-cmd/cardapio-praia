@@ -24,11 +24,6 @@
       margin-bottom: 10px;
     }
 
-    header h1 {
-      margin: 0;
-      font-size: 26px;
-    }
-
     .item {
       background: white;
       margin: 15px;
@@ -38,18 +33,17 @@
     }
 
     .item h2 {
-      margin: 0 0 8px 0;
+      margin: 0 0 6px 0;
       font-size: 20px;
     }
 
     .item p {
-      margin: 0 0 8px 0;
-      font-size: 15px;
+      margin: 0 0 6px 0;
       color: #555;
+      font-size: 14px;
     }
 
     .preco {
-      font-size: 18px;
       font-weight: bold;
       margin-bottom: 10px;
     }
@@ -57,11 +51,11 @@
     .btn {
       background: #25d366;
       color: white;
-      padding: 12px;
       text-align: center;
+      padding: 12px;
       border-radius: 10px;
-      font-size: 16px;
       cursor: pointer;
+      font-size: 16px;
     }
   </style>
 </head>
@@ -76,23 +70,23 @@
 <div id="cardapio"></div>
 
 <script>
-  const telefone = "5584992217686"; // 🔴 TROQUE PELO SEU WHATSAPP
+  const telefone = "5584992217686"; // 🔴 TROQUE PELO SEU NÚMERO
 
   const pratos = [
     { nome: "Peixe Frito Inteiro (Cioba)", desc: "A combinar • Arroz, salada e farofa", preco: "A combinar" },
     { nome: "Peixe Frito Inteiro (Tilápia)", desc: "A combinar • Arroz, salada e farofa", preco: "A combinar" },
-    { nome: "Filé de Peixe Grelhado", desc: "Arroz e seleta de legumes no vapor c/ azeite", preco: "R$ 179,99" },
+    { nome: "Filé de Peixe Grelhado", desc: "Arroz e legumes no vapor c/ azeite", preco: "R$ 179,99" },
     { nome: "Moqueca de Peixe", desc: "Arroz, pirão e legumes", preco: "R$ 289,00" },
     { nome: "Isca de Peixe", desc: "", preco: "R$ 169,99" },
     { nome: "Isca de Frango", desc: "", preco: "R$ 159,99" },
     { nome: "Frango a Passarinho", desc: "", preco: "R$ 139,99" },
-    { nome: "Filé de Peito de Frango Grelhado", desc: "Arroz e seleta de legumes no vapor c/ azeite", preco: "R$ 169,99" },
+    { nome: "Filé de Peito de Frango Grelhado", desc: "Arroz e legumes no vapor", preco: "R$ 169,99" },
     { nome: "Camarão Alho e Óleo (com casca)", desc: "", preco: "R$ 159,99" },
     { nome: "Camarão Alho e Óleo (sem casca)", desc: "", preco: "R$ 169,99" },
     { nome: "Camarão à Milanesa", desc: "", preco: "R$ 169,99" },
     { nome: "Camarão no Bafo", desc: "", preco: "R$ 169,99" },
     { nome: "Lagosta", desc: "Preço a combinar", preco: "A combinar" },
-    { nome: "Mistinho de Frutos do Mar", desc: "Camarão alho e óleo c/ casca e filé de peixe empanado", preco: "R$ 259,99" },
+    { nome: "Mistinho de Frutos do Mar", desc: "Camarão e peixe empanado", preco: "R$ 259,99" },
     { nome: "Mistão de Frutos do Mar", desc: "Lagosta, camarão e peixe", preco: "R$ 359,90" },
     { nome: "Carne de Sol", desc: "Arroz, feijão, salada e farofa", preco: "R$ 159,99" },
     { nome: "Mistinho", desc: "Carne e frango", preco: "R$ 229,99" },
@@ -106,12 +100,12 @@
     const div = document.createElement("div");
     div.className = "item";
 
-    const msg = 
+    const mensagem =
       "🧾 Pedido - Cardápio Praia\n\n" +
       "🍽 Prato: " + prato.nome + "\n" +
       "💰 Preço: " + prato.preco;
 
-    const link = "https://wa.me/" + telefone + "?text=" + encodeURIComponent(msg);
+    const link = "https://wa.me/" + telefone + "?text=" + encodeURIComponent(mensagem);
 
     div.innerHTML = `
       <h2>${prato.nome}</h2>
@@ -128,6 +122,8 @@
 
 </body>
 </html>
+
+
 
 
 
