@@ -178,7 +178,7 @@ categorias.forEach((categoria,cIndex)=>{
 
     const id=cIndex+"-"+iIndex;
     carrinho[id]=0;
-    escolhas[id]={tipo:"Individual",acomp:"Mista"};
+    escolhas[id]={tipo:"Individual"};
     observacoes[id]="";
 
     const div=document.createElement("div");
@@ -193,13 +193,6 @@ categorias.forEach((categoria,cIndex)=>{
       <select onchange="escolhas['${id}'].tipo=this.value">
         <option>Individual</option>
         <option>Refeição</option>
-      </select>
-
-      <label>Acompanhamento:</label>
-      <select onchange="escolhas['${id}'].acomp=this.value">
-        <option>Mista</option>
-        <option>Somente batata</option>
-        <option>Somente macaxeira</option>
       </select>
       ` : ``}
 
@@ -251,7 +244,7 @@ function enviarPedido(){
         mensagem+=`${carrinho[id]}x ${item.nome}`;
 
         if(item.isca){
-          mensagem+=` (${escolhas[id].tipo} - ${escolhas[id].acomp})`;
+          mensagem+=` (${escolhas[id].tipo})`;
         }
 
         if(observacoes[id]){
