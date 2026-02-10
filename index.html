@@ -17,7 +17,7 @@ body{
 .overlay{
   background:rgba(0,0,0,0.6);
   min-height:100vh;
-  padding-bottom:140px;
+  padding-bottom:160px;
 }
 
 header{
@@ -28,25 +28,23 @@ header{
 
 header img{
   width:180px;
-  margin-bottom:10px;
 }
 
 header h1{
-  margin:0;
+  margin:10px 0 0 0;
   font-size:30px;
 }
 
 .tempo{
   margin-top:10px;
-  font-size:16px;
   background:#ff9800;
-  display:inline-block;
   padding:8px 15px;
   border-radius:20px;
+  display:inline-block;
 }
 
 .categoria{
-  color:#fff;
+  color:white;
   font-size:22px;
   margin:20px;
   font-weight:bold;
@@ -65,25 +63,21 @@ header h1{
   font-size:20px;
 }
 
-.desc{
-  font-size:14px;
-  color:#555;
-}
-
 .preco{
   font-weight:bold;
   margin-top:5px;
 }
 
-.opcoes{
+select, textarea{
+  width:100%;
   margin-top:8px;
-  font-size:14px;
+  padding:8px;
+  border-radius:8px;
 }
 
-.opcoes select{
-  padding:6px;
-  border-radius:6px;
-  margin-top:5px;
+textarea{
+  resize:none;
+  height:60px;
 }
 
 .controle{
@@ -152,23 +146,24 @@ const categorias=[
 {
 nome:"🐟 Peixes",
 itens:[
-{nome:"Filé de Peixe Grelhado",desc:"Arroz e legumes no vapor",preco:179.99},
-{nome:"Moqueca de Peixe",desc:"Arroz, pirão e legumes",preco:289.00},
-{nome:"Isca de Peixe",desc:"Escolha o acompanhamento",preco:169.99,opcoes:true}
+{nome:"Filé de Peixe Grelhado",preco:179.99},
+{nome:"Moqueca de Peixe",preco:289.00},
+{nome:"Isca de Peixe",preco:169.99,isca:true}
 ]
 },
 {
 nome:"🍗 Carnes e Frango",
 itens:[
-{nome:"Isca de Frango",desc:"Escolha o acompanhamento",preco:159.99,opcoes:true},
+{nome:"Isca de Frango",preco:159.99,isca:true},
 {nome:"Frango a Passarinho",preco:139.99},
-{nome:"Carne de Sol",desc:"Arroz, feijão, salada e farofa",preco:159.99}
+{nome:"Carne de Sol",preco:159.99}
 ]
 }
 ];
 
 let carrinho={};
 let escolhas={};
+let observacoes={};
 
 const cardapio=document.getElementById("cardapio");
 
@@ -183,25 +178,35 @@ categorias.forEach((categoria,cIndex)=>{
 
     const id=cIndex+"-"+iIndex;
     carrinho[id]=0;
-    escolhas[id]="Mista";
+    escolhas[id]={tipo:"Individual",acomp:"Mista"};
+    observacoes[id]="";
 
     const div=document.createElement("div");
     div.className="item";
 
     div.innerHTML=`
       <h2>${item.nome}</h2>
-      <div class="desc">${item.desc || ""}</div>
       <div class="preco">R$ ${item.preco.toFixed(2)}</div>
-      ${item.opcoes ? `
-      <div class="opcoes">
-        Acompanhamento:
-        <br>
-        <select onchange="escolhas['${id}']=this.value">
-          <option value="Mista">Mista</option>
-          <option value="Somente batata">Somente batata</option>
-          <option value="Somente macaxeira">Somente macaxeira</option>
-        </select>
-      </div>` : ``}
+
+      ${item.isca ? `
+      <label>Tipo:</label>
+      <select onchange="escolhas['${id}'].tipo=this.value">
+        <option>Individual</option>
+        <option>Refeição</option>
+      </select>
+
+      <label>Acompanhamento:</label>
+      <select onchange="escolhas['${id}'].acomp=this.value">
+        <option>Mista</option>
+        <option>Somente batata</option>
+        <option>Somente macaxeira</option>
+      </select>
+      ` : ``}
+
+      <label>Observação:</label>
+      <textarea placeholder="Ex: sem sal, bem passado..." 
+      onchange="observacoes['${id}']=this.value"></textarea>
+
       <div class="controle">
         <button onclick="alterar('${id}',-1)">-</button>
         <span id="q${id}">0</span>
@@ -241,14 +246,19 @@ function enviarPedido(){
   categorias.forEach((categoria,cIndex)=>{
     categoria.itens.forEach((item,iIndex)=>{
       const id=cIndex+"-"+iIndex;
+
       if(carrinho[id]>0){
         mensagem+=`${carrinho[id]}x ${item.nome}`;
 
-        if(item.opcoes){
-          mensagem+=` (${escolhas[id]})`;
+        if(item.isca){
+          mensagem+=` (${escolhas[id].tipo} - ${escolhas[id].acomp})`;
         }
 
-        mensagem+=` - R$ ${(item.preco*carrinho[id]).toFixed(2)}\n`;
+        if(observacoes[id]){
+          mensagem+=` | Obs: ${observacoes[id]}`;
+        }
+
+        mensagem+=`\n`;
         total+=item.preco*carrinho[id];
       }
     });
