@@ -2,89 +2,65 @@
 <html lang="pt-BR">
 <head>
 <meta charset="UTF-8">
-<title>Cardápio Barraca Prime</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Cardápio Barraca Prime</title>
 
 <style>
-body {
-  margin: 0;
-  font-family: Arial, sans-serif;
-  background: #e6f7ff;
+body{
+margin:0;
+font-family:Arial, sans-serif;
+background:linear-gradient(to bottom,#00c6ff,#fdfdfd);
 }
 
-header {
-  background: #0077b6;
-  color: white;
-  text-align: center;
-  padding: 20px;
+header{
+background:#008cba;
+color:white;
+text-align:center;
+padding:25px;
 }
 
-header img {
-  width: 180px;
-  margin-bottom: 10px;
+header img{
+width:220px;
+margin-bottom:10px;
 }
 
-header h1 {
-  margin: 0;
-  font-size: 28px;
+header h1{
+margin:0;
+font-size:32px;
 }
 
-.item {
-  background: white;
-  margin: 15px;
-  padding: 18px;
-  border-radius: 15px;
-  box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+.item{
+background:white;
+margin:20px;
+padding:20px;
+border-radius:20px;
+box-shadow:0 5px 15px rgba(0,0,0,0.2);
 }
 
-.item h2 {
-  margin: 0 0 5px 0;
-  font-size: 20px;
+.item h2{
+margin:0 0 8px 0;
+font-size:22px;
 }
 
-.item p {
-  margin: 0 0 5px 0;
-  color: #555;
-  font-size: 14px;
+.item p{
+margin:0 0 10px 0;
+color:#555;
 }
 
-.preco {
-  font-weight: bold;
-  margin-bottom: 10px;
-  color: #000;
+.preco{
+font-weight:bold;
+font-size:18px;
+margin-bottom:12px;
 }
 
-.quantidade {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-}
-
-.quantidade button {
-  width: 35px;
-  height: 35px;
-  border: none;
-  background: #0077b6;
-  color: white;
-  font-size: 18px;
-  border-radius: 8px;
-  cursor: pointer;
-}
-
-.quantidade span {
-  font-size: 16px;
-  font-weight: bold;
-}
-
-.enviar {
-  background: #25d366;
-  color: white;
-  text-align: center;
-  padding: 15px;
-  margin: 20px;
-  border-radius: 12px;
-  font-size: 18px;
-  cursor: pointer;
+.btn{
+background:#25d366;
+color:white;
+padding:12px;
+border-radius:10px;
+text-align:center;
+cursor:pointer;
+font-weight:bold;
 }
 </style>
 </head>
@@ -92,94 +68,66 @@ header h1 {
 <body>
 
 <header>
-  <img src="logo.png" alt="Logo">
-  <h1>Cardápio Barraca Prime 🌊</h1>
+<img src="logo.png">
+<h1>Cardápio Barraca Prime 🌊</h1>
 </header>
 
 <div id="cardapio"></div>
 
-<div class="enviar" onclick="enviarPedido()">
-📲 Enviar pedido no WhatsApp
-</div>
-
 <script>
-const telefone = "5584992217686";
+const telefone="5584992217686";
 
-const pratos = [
-{nome:"Peixe Frito Inteiro (Cioba)", preco:"A combinar"},
-{nome:"Peixe Frito Inteiro (Tilápia)", preco:"A combinar"},
-{nome:"Filé de Peixe Grelhado", preco:"R$ 179,99"},
-{nome:"Moqueca de Peixe", preco:"R$ 289,00"},
-{nome:"Isca de Peixe", preco:"R$ 169,99"},
-{nome:"Isca de Frango", preco:"R$ 159,99"},
-{nome:"Frango a Passarinho", preco:"R$ 139,99"},
-{nome:"Filé de Peito de Frango Grelhado", preco:"R$ 169,99"},
-{nome:"Camarão Alho e Óleo (com casca)", preco:"R$ 159,99"},
-{nome:"Camarão Alho e Óleo (sem casca)", preco:"R$ 169,99"},
-{nome:"Camarão à Milanesa", preco:"R$ 169,99"},
-{nome:"Camarão no Bafo", preco:"R$ 169,99"},
-{nome:"Lagosta", preco:"A combinar"},
-{nome:"Mistinho de Frutos do Mar", preco:"R$ 259,99"},
-{nome:"Mistão de Frutos do Mar", preco:"R$ 359,90"},
-{nome:"Carne de Sol", preco:"R$ 159,99"},
-{nome:"Mistinho (Carne e Frango)", preco:"R$ 229,99"},
-{nome:"Mistão (Carne, Frango e Calabresa)", preco:"R$ 259,00"},
-{nome:"Anéis de Lula Empanados", preco:"R$ 279,99"}
+const pratos=[
+
+{nome:"Peixe Frito Inteiro (Cioba)",desc:"Arroz, salada e farofa",preco:"A combinar"},
+{nome:"Peixe Frito Inteiro (Tilápia)",desc:"Arroz, salada e farofa",preco:"A combinar"},
+{nome:"Filé de Peixe Grelhado",desc:"Arroz e legumes no vapor c/ azeite",preco:"R$ 179,99"},
+{nome:"Moqueca de Peixe",desc:"Arroz, pirão e legumes",preco:"R$ 289,00"},
+{nome:"Isca de Peixe",desc:"",preco:"R$ 169,99"},
+{nome:"Isca de Frango",desc:"",preco:"R$ 159,99"},
+{nome:"Frango a Passarinho",desc:"",preco:"R$ 139,99"},
+{nome:"Filé de Peito de Frango Grelhado",desc:"Arroz e legumes no vapor c/ azeite",preco:"R$ 169,99"},
+{nome:"Camarão Alho e Óleo (com casca)",desc:"",preco:"R$ 159,99"},
+{nome:"Camarão Alho e Óleo (sem casca)",desc:"",preco:"R$ 169,99"},
+{nome:"Camarão à Milanesa",desc:"",preco:"R$ 169,99"},
+{nome:"Camarão no Bafo",desc:"",preco:"R$ 169,99"},
+{nome:"Lagosta",desc:"",preco:"A combinar"},
+{nome:"Mistinho de Frutos do Mar",desc:"Camarão c/ casca e filé empanado",preco:"R$ 259,99"},
+{nome:"Mistão de Frutos do Mar",desc:"Lagosta, camarão e peixe",preco:"R$ 359,90"},
+{nome:"Carne de Sol",desc:"Arroz, feijão, salada e farofa",preco:"R$ 159,99"},
+{nome:"Mistinho",desc:"Carne e frango",preco:"R$ 229,99"},
+{nome:"Mistão",desc:"Carne, frango e calabresa",preco:"R$ 259,00"},
+{nome:"Anéis de Lula Empanados",desc:"",preco:"R$ 279,99"}
+
 ];
 
-const cardapio = document.getElementById("cardapio");
+const cardapio=document.getElementById("cardapio");
 
-pratos.forEach((prato, index) => {
-  const div = document.createElement("div");
-  div.className = "item";
+pratos.forEach(prato=>{
+const div=document.createElement("div");
+div.className="item";
 
-  div.innerHTML = `
-    <h2>${prato.nome}</h2>
-    <div class="preco">${prato.preco}</div>
-    <div class="quantidade">
-      <button onclick="diminuir(${index})">-</button>
-      <span id="qtd${index}">0</span>
-      <button onclick="aumentar(${index})">+</button>
-    </div>
-  `;
+const mensagem=
+"🧾 Pedido - Barraca Prime\n\n"+
+"🍽 Prato: "+prato.nome+"\n"+
+"💰 "+prato.preco;
 
-  cardapio.appendChild(div);
+const link="https://wa.me/"+telefone+"?text="+encodeURIComponent(mensagem);
+
+div.innerHTML=`
+<h2>${prato.nome}</h2>
+<p>${prato.desc}</p>
+<div class="preco">${prato.preco}</div>
+<div class="btn" onclick="window.open('${link}','_blank')">
+📲 Pedir no WhatsApp
+</div>
+`;
+
+cardapio.appendChild(div);
 });
-
-function aumentar(i) {
-  const el = document.getElementById("qtd"+i);
-  el.innerText = parseInt(el.innerText) + 1;
-}
-
-function diminuir(i) {
-  const el = document.getElementById("qtd"+i);
-  if (parseInt(el.innerText) > 0) {
-    el.innerText = parseInt(el.innerText) - 1;
-  }
-}
-
-function enviarPedido() {
-  let mensagem = "🧾 Pedido - Cardápio Barraca Prime\n\n";
-  let total = 0;
-  let temPedido = false;
-
-  pratos.forEach((prato, i) => {
-    const qtd = parseInt(document.getElementById("qtd"+i).innerText);
-    if (qtd > 0) {
-      mensagem += "🍽 " + prato.nome + " x" + qtd + " - " + prato.preco + "\n";
-      temPedido = true;
-    }
-  });
-
-  if (!temPedido) {
-    alert("Selecione pelo menos um prato!");
-    return;
-  }
-
-  const link = "https://wa.me/" + telefone + "?text=" + encodeURIComponent(mensagem);
-  window.open(link, "_blank");
-}
 </script>
 
 </body>
 </html>
+
+
