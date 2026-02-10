@@ -2,7 +2,7 @@
 <html lang="pt-BR">
 <head>
 <meta charset="UTF-8">
-<title>Cardápio Praia</title>
+<title>Cardápio Barraca Prime</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <style>
@@ -13,7 +13,7 @@ body {
 }
 
 header {
-  background: #00a7c7;
+  background: #0077b6;
   color: white;
   text-align: center;
   padding: 20px;
@@ -38,12 +38,12 @@ header h1 {
 }
 
 .item h2 {
-  margin: 0 0 8px 0;
+  margin: 0 0 5px 0;
   font-size: 20px;
 }
 
 .item p {
-  margin: 0 0 8px 0;
+  margin: 0 0 5px 0;
   color: #555;
   font-size: 14px;
 }
@@ -51,20 +51,20 @@ header h1 {
 .preco {
   font-weight: bold;
   margin-bottom: 10px;
+  color: #000;
 }
 
 .quantidade {
   display: flex;
   align-items: center;
   gap: 10px;
-  margin-top: 10px;
 }
 
 .quantidade button {
   width: 35px;
   height: 35px;
   border: none;
-  background: #00a7c7;
+  background: #0077b6;
   color: white;
   font-size: 18px;
   border-radius: 8px;
@@ -93,7 +93,7 @@ header h1 {
 
 <header>
   <img src="logo.png" alt="Logo">
-  <h1>Cardápio Praia 🌊</h1>
+  <h1>Cardápio Barraca Prime 🌊</h1>
 </header>
 
 <div id="cardapio"></div>
@@ -106,35 +106,36 @@ header h1 {
 const telefone = "5584992217686";
 
 const pratos = [
-"Peixe Frito Inteiro (Cioba)",
-"Peixe Frito Inteiro (Tilápia)",
-"Filé de Peixe Grelhado",
-"Moqueca de Peixe",
-"Isca de Peixe",
-"Isca de Frango",
-"Frango a Passarinho",
-"Filé de Peito de Frango Grelhado",
-"Camarão Alho e Óleo (com casca)",
-"Camarão Alho e Óleo (sem casca)",
-"Camarão à Milanesa",
-"Camarão no Bafo",
-"Lagosta",
-"Mistinho de Frutos do Mar",
-"Mistão de Frutos do Mar",
-"Carne de Sol",
-"Mistinho",
-"Mistão",
-"Anéis de Lula Empanados"
+{nome:"Peixe Frito Inteiro (Cioba)", preco:"A combinar"},
+{nome:"Peixe Frito Inteiro (Tilápia)", preco:"A combinar"},
+{nome:"Filé de Peixe Grelhado", preco:"R$ 179,99"},
+{nome:"Moqueca de Peixe", preco:"R$ 289,00"},
+{nome:"Isca de Peixe", preco:"R$ 169,99"},
+{nome:"Isca de Frango", preco:"R$ 159,99"},
+{nome:"Frango a Passarinho", preco:"R$ 139,99"},
+{nome:"Filé de Peito de Frango Grelhado", preco:"R$ 169,99"},
+{nome:"Camarão Alho e Óleo (com casca)", preco:"R$ 159,99"},
+{nome:"Camarão Alho e Óleo (sem casca)", preco:"R$ 169,99"},
+{nome:"Camarão à Milanesa", preco:"R$ 169,99"},
+{nome:"Camarão no Bafo", preco:"R$ 169,99"},
+{nome:"Lagosta", preco:"A combinar"},
+{nome:"Mistinho de Frutos do Mar", preco:"R$ 259,99"},
+{nome:"Mistão de Frutos do Mar", preco:"R$ 359,90"},
+{nome:"Carne de Sol", preco:"R$ 159,99"},
+{nome:"Mistinho (Carne e Frango)", preco:"R$ 229,99"},
+{nome:"Mistão (Carne, Frango e Calabresa)", preco:"R$ 259,00"},
+{nome:"Anéis de Lula Empanados", preco:"R$ 279,99"}
 ];
 
 const cardapio = document.getElementById("cardapio");
 
-pratos.forEach((nome, index) => {
+pratos.forEach((prato, index) => {
   const div = document.createElement("div");
   div.className = "item";
 
   div.innerHTML = `
-    <h2>${nome}</h2>
+    <h2>${prato.nome}</h2>
+    <div class="preco">${prato.preco}</div>
     <div class="quantidade">
       <button onclick="diminuir(${index})">-</button>
       <span id="qtd${index}">0</span>
@@ -158,13 +159,14 @@ function diminuir(i) {
 }
 
 function enviarPedido() {
-  let mensagem = "🧾 Pedido - Cardápio Praia\n\n";
+  let mensagem = "🧾 Pedido - Cardápio Barraca Prime\n\n";
+  let total = 0;
   let temPedido = false;
 
-  pratos.forEach((nome, i) => {
+  pratos.forEach((prato, i) => {
     const qtd = parseInt(document.getElementById("qtd"+i).innerText);
     if (qtd > 0) {
-      mensagem += "🍽 " + nome + " x" + qtd + "\n";
+      mensagem += "🍽 " + prato.nome + " x" + qtd + " - " + prato.preco + "\n";
       temPedido = true;
     }
   });
