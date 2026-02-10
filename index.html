@@ -7,60 +7,96 @@
 
 <style>
 body{
-margin:0;
-font-family:Arial, sans-serif;
-background:linear-gradient(to bottom,#00c6ff,#fdfdfd);
+  margin:0;
+  font-family:Arial, sans-serif;
+  background:linear-gradient(to bottom,#0f7c9b,#32b7d2);
 }
 
 header{
-background:#008cba;
-color:white;
-text-align:center;
-padding:25px;
+  text-align:center;
+  padding:25px;
+  color:white;
 }
 
 header img{
-width:220px;
-margin-bottom:10px;
+  width:200px;
+  margin-bottom:10px;
 }
 
 header h1{
-margin:0;
-font-size:32px;
+  margin:0;
+  font-size:30px;
+}
+
+.container{
+  padding:15px;
 }
 
 .item{
-background:white;
-margin:20px;
-padding:20px;
-border-radius:20px;
-box-shadow:0 5px 15px rgba(0,0,0,0.2);
+  background:white;
+  padding:20px;
+  border-radius:15px;
+  margin-bottom:20px;
+  box-shadow:0 5px 15px rgba(0,0,0,0.2);
 }
 
 .item h2{
-margin:0 0 8px 0;
-font-size:22px;
+  margin:0;
+  font-size:22px;
 }
 
-.item p{
-margin:0 0 10px 0;
-color:#555;
+.desc{
+  color:#555;
+  margin:5px 0;
 }
 
 .preco{
-font-weight:bold;
-font-size:18px;
-margin-bottom:12px;
+  font-weight:bold;
+  font-size:18px;
+  margin:8px 0;
 }
 
-.btn{
-background:#25d366;
-color:white;
-padding:12px;
-border-radius:10px;
-text-align:center;
-cursor:pointer;
-font-weight:bold;
+.quantidade{
+  display:flex;
+  align-items:center;
+  gap:10px;
+}
+
+.quantidade button{
+  background:#0f7c9b;
+  color:white;
+  border:none;
+  padding:5px 12px;
+  font-size:18px;
+  border-radius:8px;
+  cursor:pointer;
+}
+
+.quantidade span{
+  font-size:18px;
+  width:30px;
+  text-align:center;
+}
+
+.total-box{
+  background:white;
+  padding:20px;
+  border-radius:15px;
+  margin:20px 15px;
+  box-shadow:0 5px 15px rgba(0,0,0,0.2);
+  font-size:20px;
+  font-weight:bold;
+}
+
+.finalizar{
+  background:#25d366;
+  color:white;
+  padding:18px;
+  text-align:center;
+  font-size:20px;
+  border-radius:12px;
+  margin:20px;
+  cursor:pointer;
 }
 </style>
 </head>
@@ -72,62 +108,100 @@ font-weight:bold;
 <h1>Cardápio Barraca Prime 🌊</h1>
 </header>
 
-<div id="cardapio"></div>
+<div class="container" id="cardapio"></div>
+
+<div class="total-box">
+Total: R$ <span id="total">0.00</span>
+</div>
+
+<div class="finalizar" onclick="enviarPedido()">
+📲 Finalizar Pedido no WhatsApp
+</div>
 
 <script>
-const telefone="5584992217686";
 
-const pratos=[
+const telefone = "5584992217686";
 
-{nome:"Peixe Frito Inteiro (Cioba)",desc:"Arroz, salada e farofa",preco:"A combinar"},
-{nome:"Peixe Frito Inteiro (Tilápia)",desc:"Arroz, salada e farofa",preco:"A combinar"},
-{nome:"Filé de Peixe Grelhado",desc:"Arroz e legumes no vapor c/ azeite",preco:"R$ 179,99"},
-{nome:"Moqueca de Peixe",desc:"Arroz, pirão e legumes",preco:"R$ 289,00"},
-{nome:"Isca de Peixe",desc:"",preco:"R$ 169,99"},
-{nome:"Isca de Frango",desc:"",preco:"R$ 159,99"},
-{nome:"Frango a Passarinho",desc:"",preco:"R$ 139,99"},
-{nome:"Filé de Peito de Frango Grelhado",desc:"Arroz e legumes no vapor c/ azeite",preco:"R$ 169,99"},
-{nome:"Camarão Alho e Óleo (com casca)",desc:"",preco:"R$ 159,99"},
-{nome:"Camarão Alho e Óleo (sem casca)",desc:"",preco:"R$ 169,99"},
-{nome:"Camarão à Milanesa",desc:"",preco:"R$ 169,99"},
-{nome:"Camarão no Bafo",desc:"",preco:"R$ 169,99"},
-{nome:"Lagosta",desc:"",preco:"A combinar"},
-{nome:"Mistinho de Frutos do Mar",desc:"Camarão c/ casca e filé empanado",preco:"R$ 259,99"},
-{nome:"Mistão de Frutos do Mar",desc:"Lagosta, camarão e peixe",preco:"R$ 359,90"},
-{nome:"Carne de Sol",desc:"Arroz, feijão, salada e farofa",preco:"R$ 159,99"},
-{nome:"Mistinho",desc:"Carne e frango",preco:"R$ 229,99"},
-{nome:"Mistão",desc:"Carne, frango e calabresa",preco:"R$ 259,00"},
-{nome:"Anéis de Lula Empanados",desc:"",preco:"R$ 279,99"}
-
+const pratos = [
+{nome:"Filé de Peixe Grelhado",desc:"Arroz e legumes no vapor",preco:179.99},
+{nome:"Moqueca de Peixe",desc:"Arroz, pirão e legumes",preco:289.00},
+{nome:"Isca de Peixe",desc:"",preco:169.99},
+{nome:"Isca de Frango",desc:"",preco:159.99},
+{nome:"Frango a Passarinho",desc:"",preco:139.99},
+{nome:"Camarão Alho e Óleo (com casca)",desc:"",preco:159.99},
+{nome:"Camarão Alho e Óleo (sem casca)",desc:"",preco:169.99},
+{nome:"Camarão à Milanesa",desc:"",preco:169.99},
+{nome:"Carne de Sol",desc:"Arroz, feijão, salada e farofa",preco:159.99},
+{nome:"Mistão de Frutos do Mar",desc:"Lagosta, camarão e peixe",preco:359.90}
 ];
 
-const cardapio=document.getElementById("cardapio");
+let carrinho = {};
 
-pratos.forEach(prato=>{
-const div=document.createElement("div");
-div.className="item";
+const cardapio = document.getElementById("cardapio");
 
-const mensagem=
-"🧾 Pedido - Barraca Prime\n\n"+
-"🍽 Prato: "+prato.nome+"\n"+
-"💰 "+prato.preco;
+pratos.forEach((prato,index)=>{
 
-const link="https://wa.me/"+telefone+"?text="+encodeURIComponent(mensagem);
+  carrinho[index]=0;
 
-div.innerHTML=`
-<h2>${prato.nome}</h2>
-<p>${prato.desc}</p>
-<div class="preco">${prato.preco}</div>
-<div class="btn" onclick="window.open('${link}','_blank')">
-📲 Pedir no WhatsApp
-</div>
-`;
+  const div=document.createElement("div");
+  div.className="item";
 
-cardapio.appendChild(div);
+  div.innerHTML=`
+  <h2>${prato.nome}</h2>
+  <div class="desc">${prato.desc}</div>
+  <div class="preco">R$ ${prato.preco.toFixed(2)}</div>
+  <div class="quantidade">
+    <button onclick="alterar(${index},-1)">-</button>
+    <span id="qtd${index}">0</span>
+    <button onclick="alterar(${index},1)">+</button>
+  </div>
+  `;
+
+  cardapio.appendChild(div);
 });
+
+function alterar(index,valor){
+  carrinho[index]+=valor;
+  if(carrinho[index]<0) carrinho[index]=0;
+  document.getElementById("qtd"+index).innerText=carrinho[index];
+  atualizarTotal();
+}
+
+function atualizarTotal(){
+  let total=0;
+  pratos.forEach((prato,index)=>{
+    total+=prato.preco*carrinho[index];
+  });
+  document.getElementById("total").innerText=total.toFixed(2);
+}
+
+function enviarPedido(){
+  let mensagem="🧾 Pedido - Barraca Prime\n\n";
+  let total=0;
+
+  pratos.forEach((prato,index)=>{
+    if(carrinho[index]>0){
+      mensagem+=`${carrinho[index]}x ${prato.nome} - R$ ${(prato.preco*carrinho[index]).toFixed(2)}\n`;
+      total+=prato.preco*carrinho[index];
+    }
+  });
+
+  if(total===0){
+    alert("Selecione pelo menos um item");
+    return;
+  }
+
+  mensagem+=`\n💰 Total: R$ ${total.toFixed(2)}`;
+
+  const link=`https://wa.me/${telefone}?text=${encodeURIComponent(mensagem)}`;
+  window.open(link,"_blank");
+}
+
 </script>
 
 </body>
 </html>
+
+
 
 
