@@ -9,7 +9,7 @@
     body {
       margin: 0;
       font-family: Arial, sans-serif;
-      background: #f2fbff;
+      background: #e6f7ff;
     }
 
     header {
@@ -20,32 +20,38 @@
     }
 
     header img {
-      width: 140px;
+      width: 160px;
       margin-bottom: 10px;
+    }
+
+    header h1 {
+      margin: 0;
+      font-size: 26px;
     }
 
     .item {
       background: white;
       margin: 15px;
-      padding: 15px;
+      padding: 18px;
       border-radius: 15px;
       box-shadow: 0 4px 10px rgba(0,0,0,0.1);
     }
 
     .item h2 {
-      margin: 0 0 6px 0;
+      margin: 0 0 8px 0;
       font-size: 20px;
     }
 
     .item p {
-      margin: 0 0 6px 0;
+      margin: 0 0 8px 0;
       color: #555;
       font-size: 14px;
     }
 
     .preco {
       font-weight: bold;
-      margin-bottom: 10px;
+      font-size: 16px;
+      margin-bottom: 12px;
     }
 
     .btn {
@@ -70,7 +76,7 @@
 <div id="cardapio"></div>
 
 <script>
-  const telefone = "5584992217686"; // 🔴 TROQUE PELO SEU NÚMERO
+  const telefone = "5584992217686";
 
   const pratos = [
     { nome: "Peixe Frito Inteiro (Cioba)", desc: "A combinar • Arroz, salada e farofa", preco: "A combinar" },
@@ -86,7 +92,7 @@
     { nome: "Camarão à Milanesa", desc: "", preco: "R$ 169,99" },
     { nome: "Camarão no Bafo", desc: "", preco: "R$ 169,99" },
     { nome: "Lagosta", desc: "Preço a combinar", preco: "A combinar" },
-    { nome: "Mistinho de Frutos do Mar", desc: "Camarão e peixe empanado", preco: "R$ 259,99" },
+    { nome: "Mistinho de Frutos do Mar", desc: "Camarão alho e óleo c/ casca e filé empanado", preco: "R$ 259,99" },
     { nome: "Mistão de Frutos do Mar", desc: "Lagosta, camarão e peixe", preco: "R$ 359,90" },
     { nome: "Carne de Sol", desc: "Arroz, feijão, salada e farofa", preco: "R$ 159,99" },
     { nome: "Mistinho", desc: "Carne e frango", preco: "R$ 229,99" },
@@ -122,6 +128,7 @@
 
 </body>
 </html>
+
 
 
 
