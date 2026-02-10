@@ -17,7 +17,7 @@ body{
 .overlay{
   background:rgba(0,0,0,0.6);
   min-height:100vh;
-  padding-bottom:120px;
+  padding-bottom:140px;
 }
 
 header{
@@ -34,6 +34,15 @@ header img{
 header h1{
   margin:0;
   font-size:30px;
+}
+
+.tempo{
+  margin-top:10px;
+  font-size:16px;
+  background:#ff9800;
+  display:inline-block;
+  padding:8px 15px;
+  border-radius:20px;
 }
 
 .categoria{
@@ -112,6 +121,7 @@ header h1{
 <header>
 <img src="logo.png">
 <h1>Cardápio Barraca Prime 🌊</h1>
+<div class="tempo">⏱ Tempo estimado: 40min – 1 hora</div>
 </header>
 
 <div id="cardapio"></div>
@@ -125,6 +135,7 @@ header h1{
 <script>
 
 const telefone="5584992217686";
+const tempoEntrega="40min – 1 hora";
 
 const categorias=[
 {
@@ -138,8 +149,8 @@ itens:[
 {
 nome:"🍤 Frutos do Mar",
 itens:[
-{nome:"Camarão Alho e Óleo (com casca)",desc:"",preco:159.99},
-{nome:"Camarão à Milanesa",desc:"",preco:169.99},
+{nome:"Camarão Alho e Óleo (com casca)",preco:159.99},
+{nome:"Camarão à Milanesa",preco:169.99},
 {nome:"Mistão de Frutos do Mar",desc:"Lagosta, camarão e peixe",preco:359.90}
 ]
 },
@@ -147,14 +158,13 @@ itens:[
 nome:"🍗 Carnes e Frango",
 itens:[
 {nome:"Carne de Sol",desc:"Arroz, feijão, salada e farofa",preco:159.99},
-{nome:"Isca de Frango",desc:"",preco:159.99},
-{nome:"Frango a Passarinho",desc:"",preco:139.99}
+{nome:"Isca de Frango",preco:159.99},
+{nome:"Frango a Passarinho",preco:139.99}
 ]
 }
 ];
 
 let carrinho={};
-
 const cardapio=document.getElementById("cardapio");
 
 categorias.forEach((categoria,cIndex)=>{
@@ -174,7 +184,7 @@ categorias.forEach((categoria,cIndex)=>{
 
     div.innerHTML=`
       <h2>${item.nome}</h2>
-      <div class="desc">${item.desc}</div>
+      <div class="desc">${item.desc || ""}</div>
       <div class="preco">R$ ${item.preco.toFixed(2)}</div>
       <div class="controle">
         <button onclick="alterar('${id}',-1)">-</button>
@@ -229,6 +239,7 @@ function enviarPedido(){
     return;
   }
 
+  mensagem+=`\n⏱ Tempo estimado: ${tempoEntrega}`;
   mensagem+=`\n💰 Total: R$ ${total.toFixed(2)}`;
 
   const link=`https://wa.me/${telefone}?text=${encodeURIComponent(mensagem)}`;
@@ -239,3 +250,4 @@ function enviarPedido(){
 
 </body>
 </html>
+
