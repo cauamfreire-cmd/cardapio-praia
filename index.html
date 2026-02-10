@@ -26,59 +26,41 @@
 
     header h1 {
       margin: 0;
-      font-size: 28px;
+      font-size: 26px;
     }
 
-    .card {
+    .item {
       background: white;
-      margin: 20px;
-      padding: 20px;
+      margin: 15px;
+      padding: 15px;
       border-radius: 15px;
       box-shadow: 0 4px 10px rgba(0,0,0,0.1);
     }
 
-    .card h2 {
-      font-size: 26px;
-      margin-bottom: 15px;
+    .item h2 {
+      margin: 0 0 8px 0;
+      font-size: 20px;
     }
 
-    .opcoes label {
-      display: block;
+    .item p {
+      margin: 0 0 8px 0;
+      font-size: 15px;
+      color: #555;
+    }
+
+    .preco {
       font-size: 18px;
-      margin-bottom: 8px;
+      font-weight: bold;
+      margin-bottom: 10px;
     }
 
-    .quantidade {
-      margin-top: 15px;
-      display: flex;
-      align-items: center;
-      gap: 15px;
-    }
-
-    .quantidade button {
-      width: 45px;
-      height: 45px;
-      font-size: 22px;
-      border: none;
-      border-radius: 10px;
-      background: #00a7c7;
-      color: white;
-    }
-
-    .quantidade span {
-      font-size: 22px;
-      min-width: 30px;
-      text-align: center;
-    }
-
-    .btn-whatsapp {
+    .btn {
       background: #25d366;
       color: white;
-      font-size: 20px;
+      padding: 12px;
       text-align: center;
-      padding: 18px;
-      margin: 25px;
-      border-radius: 15px;
+      border-radius: 10px;
+      font-size: 16px;
       cursor: pointer;
     }
   </style>
@@ -91,68 +73,63 @@
   <h1>Cardápio Praia 🌊</h1>
 </header>
 
-<div class="card">
-  <h2 id="prato">Peixe Grelhado</h2>
-
-  <div class="opcoes">
-    <label>
-      <input type="radio" name="opcao" value="Mista" checked>
-      Mista
-    </label>
-
-    <label>
-      <input type="radio" name="opcao" value="Apenas batata">
-      Apenas batata
-    </label>
-
-    <label>
-      <input type="radio" name="opcao" value="Apenas macaxeira">
-      Apenas macaxeira
-    </label>
-  </div>
-
-  <div class="quantidade">
-    <button onclick="alterarQtd(-1)">−</button>
-    <span id="quantidade">1</span>
-    <button onclick="alterarQtd(1)">+</button>
-  </div>
-</div>
-
-<div class="btn-whatsapp" onclick="enviarWhatsApp()">
-  📲 Enviar pedido no WhatsApp
-</div>
+<div id="cardapio"></div>
 
 <script>
-  function alterarQtd(valor) {
-    const qtd = document.getElementById("quantidade");
-    let numero = parseInt(qtd.innerText);
+  const telefone = "5584992217686"; // 🔴 TROQUE PELO SEU WHATSAPP
 
-    numero += valor;
-    if (numero < 1) numero = 1;
+  const pratos = [
+    { nome: "Peixe Frito Inteiro (Cioba)", desc: "A combinar • Arroz, salada e farofa", preco: "A combinar" },
+    { nome: "Peixe Frito Inteiro (Tilápia)", desc: "A combinar • Arroz, salada e farofa", preco: "A combinar" },
+    { nome: "Filé de Peixe Grelhado", desc: "Arroz e seleta de legumes no vapor c/ azeite", preco: "R$ 179,99" },
+    { nome: "Moqueca de Peixe", desc: "Arroz, pirão e legumes", preco: "R$ 289,00" },
+    { nome: "Isca de Peixe", desc: "", preco: "R$ 169,99" },
+    { nome: "Isca de Frango", desc: "", preco: "R$ 159,99" },
+    { nome: "Frango a Passarinho", desc: "", preco: "R$ 139,99" },
+    { nome: "Filé de Peito de Frango Grelhado", desc: "Arroz e seleta de legumes no vapor c/ azeite", preco: "R$ 169,99" },
+    { nome: "Camarão Alho e Óleo (com casca)", desc: "", preco: "R$ 159,99" },
+    { nome: "Camarão Alho e Óleo (sem casca)", desc: "", preco: "R$ 169,99" },
+    { nome: "Camarão à Milanesa", desc: "", preco: "R$ 169,99" },
+    { nome: "Camarão no Bafo", desc: "", preco: "R$ 169,99" },
+    { nome: "Lagosta", desc: "Preço a combinar", preco: "A combinar" },
+    { nome: "Mistinho de Frutos do Mar", desc: "Camarão alho e óleo c/ casca e filé de peixe empanado", preco: "R$ 259,99" },
+    { nome: "Mistão de Frutos do Mar", desc: "Lagosta, camarão e peixe", preco: "R$ 359,90" },
+    { nome: "Carne de Sol", desc: "Arroz, feijão, salada e farofa", preco: "R$ 159,99" },
+    { nome: "Mistinho", desc: "Carne e frango", preco: "R$ 229,99" },
+    { nome: "Mistão", desc: "Carne, frango e calabresa", preco: "R$ 259,00" },
+    { nome: "Anéis de Lula Empanados", desc: "", preco: "R$ 279,99" }
+  ];
 
-    qtd.innerText = numero;
-  }
+  const cardapio = document.getElementById("cardapio");
 
-  function enviarWhatsApp() {
-    const prato = document.getElementById("prato").innerText;
-    const opcao = document.querySelector('input[name="opcao"]:checked').value;
-    const quantidade = document.getElementById("quantidade").innerText;
+  pratos.forEach(prato => {
+    const div = document.createElement("div");
+    div.className = "item";
 
-    const mensagem =
+    const msg = 
       "🧾 Pedido - Cardápio Praia\n\n" +
-      "🍽 Prato: " + prato + "\n" +
-      "🥗 Opção: " + opcao + "\n" +
-      "🔢 Quantidade: " + quantidade;
+      "🍽 Prato: " + prato.nome + "\n" +
+      "💰 Preço: " + prato.preco;
 
-    const telefone = "5584992217686"; // 🔴 TROQUE PELO SEU NÚMERO
-    const link = "https://wa.me/" + telefone + "?text=" + encodeURIComponent(mensagem);
+    const link = "https://wa.me/" + telefone + "?text=" + encodeURIComponent(msg);
 
-    window.open(link, "_blank");
-  }
+    div.innerHTML = `
+      <h2>${prato.nome}</h2>
+      <p>${prato.desc}</p>
+      <div class="preco">${prato.preco}</div>
+      <div class="btn" onclick="window.open('${link}','_blank')">
+        📲 Pedir no WhatsApp
+      </div>
+    `;
+
+    cardapio.appendChild(div);
+  });
 </script>
 
 </body>
 </html>
+
+
 
 
 
